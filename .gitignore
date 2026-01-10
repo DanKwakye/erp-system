@@ -1,0 +1,40 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Environment variables (NEVER commit secrets!)
+.env
+.env.local
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node.js (for frontend later)
+node_modules/
+.npm
+.eslintcache
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
