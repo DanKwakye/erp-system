@@ -1,7 +1,7 @@
-from pydantic import Basesettings
+from pydantic_settings import BaseSettings
 from typing import Optional
 
-class Settings(Basesettings):
+class Settings(BaseSettings):
     #Database
     DATABASE_URL: str
 
