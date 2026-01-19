@@ -8,7 +8,6 @@ function Products() {
   const [error, setError] = useState(null);
   const [showForm, setShowForm] = useState(false);
   
-  // Form state
   const [formData, setFormData] = useState({
     product_name: '',
     category_id: '',
@@ -17,7 +16,6 @@ function Products() {
     is_active: true
   });
 
-  // Fetch products and categories when component loads
   useEffect(() => {
     fetchProducts();
     fetchCategories();
@@ -50,7 +48,7 @@ function Products() {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
         await deleteProduct(id);
-        fetchProducts(); // Refresh the list
+        fetchProducts();
       } catch (err) {
         alert('Failed to delete product: ' + err.message);
       }
@@ -60,7 +58,6 @@ function Products() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Convert empty strings to null for optional fields
       const dataToSend = {
         ...formData,
         category_id: formData.category_id || null,
@@ -69,7 +66,6 @@ function Products() {
       
       await createProduct(dataToSend);
       
-      // Reset form and close modal
       setFormData({
         product_name: '',
         category_id: '',
@@ -78,9 +74,8 @@ function Products() {
         is_active: true
       });
       setShowForm(false);
-      
-      // Refresh products list
       fetchProducts();
+      alert('Product created successfully!');
     } catch (err) {
       alert('Failed to create product: ' + err.message);
     }
@@ -96,16 +91,16 @@ function Products() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="text-xl">Loading products...</div>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <div style={{ fontSize: '20px' }}>Loading products...</div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="text-xl text-red-600">{error}</div>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <div style={{ fontSize: '20px', color: 'red' }}>{error}</div>
       </div>
     );
   }
@@ -113,28 +108,66 @@ function Products() {
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Header */}
-      <div className="mb-8 flex justify-between items-center">
+      <div className="mb-8" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
           <h1 className="text-3xl font-bold text-gray-800 mb-2">Products</h1>
           <p className="text-gray-600">Manage your Terra Foods product catalog</p>
         </div>
         <button
           onClick={() => setShowForm(true)}
-          className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg shadow-lg transition duration-200"
+          style={{
+            backgroundColor: '#16a34a',
+            color: 'white',
+            fontWeight: 'bold',
+            padding: '10px 24px',
+            borderRadius: '8px',
+            border: 'none',
+            cursor: 'pointer',
+            fontSize: '16px'
+          }}
+          onMouseOver={(e) => e.target.style.backgroundColor = '#15803d'}
+          onMouseOut={(e) => e.target.style.backgroundColor = '#16a34a'}
         >
           + Add Product
         </button>
       </div>
 
-{/* Create Product Modal */}
+      {/* Create Product Modal - Fixed positioning */}
       {showForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg p-8 max-w-md w-full max-h-screen overflow-y-auto shadow-2xl">
-            <h2 className="text-2xl font-bold mb-6 text-gray-800">Add New Product</h2>
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 1000
+          }}
+          onClick={() => setShowForm(false)}
+        >
+          <div
+            style={{
+              backgroundColor: 'white',
+              borderRadius: '12px',
+              padding: '32px',
+              maxWidth: '500px',
+              width: '90%',
+              maxHeight: '90vh',
+              overflowY: 'auto'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '24px' }}>
+              Add New Product
+            </h2>
             
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-gray-700 text-sm font-bold mb-2">
+            <form onSubmit={handleSubmit}>
+              <div style={{ marginBottom: '16px' }}>
+                <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '8px' }}>
                   Product Name *
                 </label>
                 <input
@@ -143,20 +176,32 @@ function Products() {
                   value={formData.product_name}
                   onChange={handleInputChange}
                   required
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500"
+                  style={{
+                    width: '100%',
+                    padding: '8px 12px',
+                    border: '1px solid #d1d5db',
+                    borderRadius: '6px',
+                    fontSize: '14px'
+                  }}
                   placeholder="e.g., Tomatoes"
                 />
               </div>
 
-              <div>
-                <label className="block text-gray-700 text-sm font-bold mb-2">
+              <div style={{ marginBottom: '16px' }}>
+                <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '8px' }}>
                   Category
                 </label>
                 <select
                   name="category_id"
                   value={formData.category_id}
                   onChange={handleInputChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500"
+                  style={{
+                    width: '100%',
+                    padding: '8px 12px',
+                    border: '1px solid #d1d5db',
+                    borderRadius: '6px',
+                    fontSize: '14px'
+                  }}
                 >
                   <option value="">Select a category</option>
                   {categories.map(cat => (
@@ -167,8 +212,8 @@ function Products() {
                 </select>
               </div>
 
-              <div>
-                <label className="block text-gray-700 text-sm font-bold mb-2">
+              <div style={{ marginBottom: '16px' }}>
+                <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '8px' }}>
                   Unit of Measure
                 </label>
                 <input
@@ -176,13 +221,19 @@ function Products() {
                   name="unit_of_measure"
                   value={formData.unit_of_measure}
                   onChange={handleInputChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500"
+                  style={{
+                    width: '100%',
+                    padding: '8px 12px',
+                    border: '1px solid #d1d5db',
+                    borderRadius: '6px',
+                    fontSize: '14px'
+                  }}
                   placeholder="e.g., kg, crate, bunch"
                 />
               </div>
 
-              <div>
-                <label className="block text-gray-700 text-sm font-bold mb-2">
+              <div style={{ marginBottom: '16px' }}>
+                <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '8px' }}>
                   Perishability (days)
                 </label>
                 <input
@@ -190,35 +241,56 @@ function Products() {
                   name="perishability_days"
                   value={formData.perishability_days}
                   onChange={handleInputChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500"
+                  style={{
+                    width: '100%',
+                    padding: '8px 12px',
+                    border: '1px solid #d1d5db',
+                    borderRadius: '6px',
+                    fontSize: '14px'
+                  }}
                   placeholder="e.g., 7"
                 />
               </div>
 
-              <div>
-                <label className="flex items-center">
+              <div style={{ marginBottom: '24px' }}>
+                <label style={{ display: 'flex', alignItems: 'center' }}>
                   <input
                     type="checkbox"
                     name="is_active"
                     checked={formData.is_active}
                     onChange={handleInputChange}
-                    className="mr-2 leading-tight h-4 w-4"
+                    style={{ marginRight: '8px' }}
                   />
-                  <span className="text-sm text-gray-700 font-bold">Active</span>
+                  <span style={{ fontWeight: 'bold' }}>Active</span>
                 </label>
               </div>
 
-              <div className="flex justify-end gap-3 pt-4">
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
                 <button
                   type="button"
                   onClick={() => setShowForm(false)}
-                  className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-6 rounded transition duration-200"
+                  style={{
+                    backgroundColor: '#d1d5db',
+                    padding: '8px 16px',
+                    borderRadius: '6px',
+                    border: 'none',
+                    cursor: 'pointer',
+                    fontWeight: 'bold'
+                  }}
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded transition duration-200"
+                  style={{
+                    backgroundColor: '#16a34a',
+                    color: 'white',
+                    padding: '8px 16px',
+                    borderRadius: '6px',
+                    border: 'none',
+                    cursor: 'pointer',
+                    fontWeight: 'bold'
+                  }}
                 >
                   Create Product
                 </button>
@@ -227,30 +299,18 @@ function Products() {
           </div>
         </div>
       )}
-      
+
       {/* Products Table */}
       <div className="bg-white rounded-lg shadow overflow-hidden">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                ID
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Product Name
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Unit
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Perishability
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Status
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Actions
-              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product Name</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Unit</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Perishability</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
@@ -263,23 +323,15 @@ function Products() {
             ) : (
               products.map((product) => (
                 <tr key={product.product_id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {product.product_id}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {product.product_name}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {product.unit_of_measure || 'N/A'}
-                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.product_id}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{product.product_name}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{product.unit_of_measure || 'N/A'}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {product.perishability_days ? `${product.perishability_days} days` : 'N/A'}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                      product.is_active 
-                        ? 'bg-green-100 text-green-800' 
-                        : 'bg-red-100 text-red-800'
+                      product.is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
                     }`}>
                       {product.is_active ? 'Active' : 'Inactive'}
                     </span>
