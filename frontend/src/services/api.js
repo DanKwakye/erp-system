@@ -22,4 +22,12 @@ export const createProduct = (data) => api.post('/products/', data);
 export const updateProduct = (id, data) => api.put(`/products/${id}`, data);
 export const deleteProduct = (id) => api.delete(`/products/${id}`);
 
+
+// SUPPLIERS
+export const getSuppliers = () => api.get('/suppliers/');
+export const getSupplier = (id) => api.get(`/suppliers/${id}`);
+export const createSupplier = (data) => api.post('/suppliers/', data);
+export const updateSupplier = (id, data) => api.put(`/suppliers/${id}`, data);
+export const deleteSupplier = (id) => api.delete(`/suppliers/${id}`);
+
 export default api;
