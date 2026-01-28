@@ -30,4 +30,30 @@ export const createSupplier = (data) => api.post('/suppliers/', data);
 export const updateSupplier = (id, data) => api.put(`/suppliers/${id}`, data);
 export const deleteSupplier = (id) => api.delete(`/suppliers/${id}`);
 
+
+// CUSTOMERS
+export const getCustomers = () => api.get('/customers/');
+export const getCustomer = (id) => api.get(`/customers/${id}`);
+export const createCustomer = (data) => api.post('/customers/', data);
+export const updateCustomer = (id, data) => api.put(`/customers/${id}`, data);
+export const deleteCustomer = (id) => api.delete(`/customers/${id}`);
+
+
+// ORDERS
+export const getOrders = () => api.get('/orders/');
+export const getOrder = (id) => api.get(`/orders/${id}`);
+export const createOrder = (data) => api.post('/orders/', data);
+export const updateOrder = (id, data) => api.put(`/orders/${id}`, data);
+export const deleteOrder = (id) => api.delete(`/orders/${id}`);
+
+
+// INVENTORY
+export const getInventoryMovements = () => api.get('/inventory/movements');
+export const getInventoryMovement = (id) => api.get(`/inventory/movements/${id}`);
+export const createInventoryMovement = (data) => api.post('/inventory/movements', data);
+export const deleteInventoryMovement = (id) => api.delete(`/inventory/movements/${id}`);
+export const getCurrentStock = (productId) => api.get(`/inventory/stock/${productId}`);
+
+
+
 export default api;

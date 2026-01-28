@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
-from app.routes import products, suppliers
+from app.routes import products, suppliers, customers, orders, inventory
 
 # Create FastAPI app
 app = FastAPI(
@@ -21,6 +21,9 @@ app.add_middleware(
 # Include routers
 app.include_router(products.router, prefix=settings.API_V1_STR)
 app.include_router(suppliers.router, prefix=settings.API_V1_STR)
+app.include_router(customers.router, prefix=settings.API_V1_STR)
+app.include_router(orders.router, prefix=settings.API_V1_STR)
+app.include_router(inventory.router, prefix=settings.API_V1_STR)
 
 # Root endpoint
 @app.get("/")
@@ -28,10 +31,11 @@ def read_roof():
     return {
         "message": "Welcome to Terra Foods EMS API",
         "docs": "/docs",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "modules": ["Products", "Suppliers," "Customers", "Orders", "Inventory"]    
     }
 
 # Health check
 @app.get("/health")
 def health_check():
-    return {"status": "healthy"}
+    return {"status": "healthy", "system": "Terra Foods EMS"}
