@@ -64,4 +64,4 @@ def delete_order(order_id: int, db: Session = Depends(get_db)):
     
     db.delete(db_order)
     db.commit()
-    return None 
+    return None
